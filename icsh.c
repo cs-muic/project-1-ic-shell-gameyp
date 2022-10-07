@@ -1,5 +1,5 @@
 /* ICCS227: Project 1: icsh
- * Name:
+ * Name: Yossatorn Phithakjiraroj
  * StudentID:
  */
 
