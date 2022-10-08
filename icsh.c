@@ -1,6 +1,6 @@
 /* ICCS227: Project 1: icsh
- * Name:
- * StudentID:
+ * Name: Yossatorn Phithakjiraroj
+ * StudentID: 6280942
  */
 
 #include "stdio.h"
