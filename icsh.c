@@ -9,8 +9,8 @@
 
 #define MAX_CMD_BUFFER 255
 
+char *res;
 void command(char *);
-void check_rest(char *);
 
 int main() {
     char buffer[MAX_CMD_BUFFER];
@@ -25,7 +25,6 @@ int main() {
 
 void command(char *buffer) {
     if (strstr(buffer, "echo")){
-        char *res;
         for (res = buffer ; *res && *res != ' ' ; res++)
             ;
         if (*res) res++;
@@ -35,10 +34,15 @@ void command(char *buffer) {
         printf("Good");
     } 
     else if (strstr(buffer, "exit")) {
-        printf("Bye");
-    }
-}
+        for (res = buffer ; *res && *res != ' ' ; res++)
+            ;
+        if (*res) res++;
+        if (atoi(res) && atoi(res) >= 1) {
+            printf("bye\n");
+            exit(atoi(res));
+        } else {
+            printf("bad command\n");
+        }
 
-void check_rest(char *) {
-    
+    }
 }
