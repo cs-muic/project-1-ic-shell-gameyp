@@ -11,7 +11,7 @@
 #define MAX_CMD_BUFFER 255
 
 char *res;
-char wow[];
+char last_command[MAX_CMD_BUFFER];
 void command(char *);
 void my_history(char *);
 
@@ -33,7 +33,7 @@ void command(char *buffer) {
         printf("%s", res);
     } 
     else if (strstr(buffer, "!!")){
-		strcpy(buffer, wow);
+		strcpy(buffer, last_command);
 		printf("%s", buffer);
 		command(buffer);
     } 
@@ -53,5 +53,12 @@ void command(char *buffer) {
 }
 
 void my_history(char *buffer){
-	strcpy(wow, buffer);
+	strcpy(last_command, buffer);
+}
+
+void my_read(char *filename) {
+	FILE * fp;
+	fp = fopen(filename, "r");
+
+	fclose(fp);
 }
