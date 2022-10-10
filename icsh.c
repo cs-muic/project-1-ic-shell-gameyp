@@ -12,7 +12,7 @@
 
 #define MAX_CMD_BUFFER 255
 
-int i;
+int i, status, pid;
 char *res, last_command[MAX_CMD_BUFFER], *argv[3];
 void command(char *), my_history(char *), my_read(char *);
 
@@ -51,11 +51,13 @@ void command(char *buffer) {
         } 
 		// else { printf("bad command\n"); }
     } else {
-		if (fork() == 0) {
+		pid = fork();
+		if (!pid) {
 			system(buffer);
 		}
-		waitpid(fork(), NULL, 0);
-		// printf("bad command\n");
+		if (pid) {
+			waitpid(pid, NULL, 0);
+		}
 	}
 }
 
