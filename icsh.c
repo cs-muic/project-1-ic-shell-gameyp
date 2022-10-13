@@ -18,7 +18,7 @@
 
 int i, status, pid;
 char *res, last_command[MAX_CMD_BUFFER], *argv[3];
-void command(char *), my_history(char *), my_read(char *), ReOut(char *);
+void command(char *), my_history(char *), my_read(char *);
 
 void handler(int signum) {
     if (signum == SIGINT && pid == 0) {
@@ -70,8 +70,17 @@ void command(char *buffer) {
         } 
 		// else { printf("bad command\n"); }
     } else if (strstr(buffer, ">")) {
-      ReOut(buffer);
-    } else {
+      char * token = strtok(buffer, ">");
+      char *p = strrchr(buffer, ' ');
+      int file_desc = open(p+2, O_TRUNC | O_CREAT | O_WRONLY, 0666);
+      if ((pid=fork())==0){
+        dup2(file_desc, 1);
+        system(token);
+        close(file_desc);
+      }
+      close(file_desc);
+    }
+      else {
 		if ((pid = fork()) == 0) {
 			system(buffer);
       exit(0);
@@ -94,13 +103,4 @@ void my_read(char *filename) {
 		command(line);
 	}
     fclose(ptr);
-}
-
-void ReOut(char *buff) {
-  char * token = strtok(buff, ">");
-  char *p = strrchr(buff, ' ');
-  int file_desc = open(p+2, O_TRUNC | O_CREAT | O_WRONLY, 0666);
-  dup2(file_desc, 1);
-  system(token);
-  close(file_desc);
 }
