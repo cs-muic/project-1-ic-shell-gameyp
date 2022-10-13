@@ -107,7 +107,12 @@ int command(char *buffer) {
       } else if (strstr(buffer, "fg")){
         for (res = buffer ; *res && *res != '%' ; res++)
             ;
-        printf("%s", res);
+        char *b = res + 1;
+        int i = atoi(b);
+        kill(-(tli[i].pid), SIGCONT);
+        waitpid(tli[i].pid, NULL, WUNTRACED);
+        tli[i].stage = 3;
+        return 1;
       }
       else if (strstr(buffer, "&")) {
       pid = fork();
